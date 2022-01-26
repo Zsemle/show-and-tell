@@ -70,7 +70,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "api" : "nodemon API-server/server.js"
+    "api" : "nodemon --watch API-server API-server/server.js"
   },
   "eslintConfig": {
     "extends": [
