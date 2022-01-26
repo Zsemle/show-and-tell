@@ -1,0 +1,31 @@
+[
+  {
+    "id": "sdfsdf324",
+    "displayName":"Volkswagen",
+    "availableModels": [
+      {
+        "id" : "666648756f",
+        "displayName":"Golf"
+      },
+      {
+        "id" : "666648756f",
+        "displayName":"Polo"
+      }
+    ]
+  },
+  {
+    "id": "kkkll3",
+    "displayName":"Toyota",
+    "availableModels": [
+      {
+        "id" : "666kkk733",
+        "displayName":"Yaris"
+      },
+      {
+        "id" : "9237jgd4",
+        "displayName":"Hilux"
+      }
+    ]
+
+  }
+]
