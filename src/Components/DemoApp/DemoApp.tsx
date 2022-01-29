@@ -1,11 +1,12 @@
 import React from 'react';
 import Axios, { AxiosError, AxiosResponse } from 'axios'
 import './DemoApp.css';
+import { CarBrand } from '../../types/demoAppModels';
 
 interface DemoAppState {
   error: Error | AxiosError |null
   isLoaded: Boolean
-  carBrands: any[] | null
+  carBrands: CarBrand[] | null
 }
 
 class DemoApp extends React.Component<{},DemoAppState>{
@@ -24,9 +25,10 @@ class DemoApp extends React.Component<{},DemoAppState>{
     Axios.get('http://localhost:3001/carbrands')
     .then(
       (response:AxiosResponse) => {
+        const carBrands = response.data.map((brandData:any) => new CarBrand(brandData))
          this.setState({
           isLoaded: true,
-          carBrands: response.data
+          carBrands: carBrands
         })
       },
       (error) => {
