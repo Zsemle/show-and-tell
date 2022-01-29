@@ -20,6 +20,7 @@ const carsRoutes = (app, fs) => {
 
   app.get('/carbrands', (req, res) => {
     readFile((data) => {
+      res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
       res.send(data);
     }, true);
   });
