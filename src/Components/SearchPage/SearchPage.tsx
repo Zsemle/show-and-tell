@@ -125,7 +125,7 @@ class SearchPage extends React.Component<{},SearchPageState>{
               <InputLabel id="car-brand-label">Brand</InputLabel>
               <Select
                 labelId="car-brand-label"
-                id="select-brand"
+                id="S1"
                 value={selectedCarBrand}
                 label="Car Brand"
                 onChange={this.handleCarBrandChange}
@@ -141,7 +141,7 @@ class SearchPage extends React.Component<{},SearchPageState>{
               <InputLabel id="car-model-label">Model</InputLabel>
               <Select
                 labelId="dcar-model-label"
-                id="select-model"
+                id="S2"
                 value={selectedCarModel}
                 label="Car Brand"
                 onChange={this.handleCarModelChange}
@@ -159,7 +159,7 @@ class SearchPage extends React.Component<{},SearchPageState>{
             </FormControl>
             <Autocomplete
               multiple
-              id="tags-filled"
+              id="T"
               options={recommendedKeywords}
               freeSolo
               renderTags={(value: readonly string[], getTagProps) =>
@@ -180,6 +180,7 @@ class SearchPage extends React.Component<{},SearchPageState>{
           </div>
           <div className='search-submit'>
             <Button
+              id="B"
               fullWidth
               variant="contained"
               disabled={!(selectedCarBrand || selectedCarModel || keyWords.length > 0)}
