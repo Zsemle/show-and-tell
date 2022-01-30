@@ -44,7 +44,7 @@ const carsRoutes = (app, fs) => {
       const carBrandId = req.params.id;
       res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
       if (!data.find(carBrand => carBrand.id === carBrandId)) {
-        res.status(400).send(`users id:${carBrandId} not found`);
+        res.status(400).send(`id:${carBrandId} not found`);
         return;
       }
       res.send(data.find(carBrand => carBrand.id === carBrandId).availableModels);
