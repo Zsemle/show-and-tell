@@ -2,7 +2,7 @@ import React from 'react';
 import Axios, { AxiosError, AxiosResponse } from 'axios'
 import './SearchPage.css'
 import { CarBrand, CarModel } from '../../types/demoAppModels';
-import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { Autocomplete, Chip, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 
 interface SearchPageState {
   error: Error | AxiosError |null
@@ -12,6 +12,7 @@ interface SearchPageState {
   carModels: CarModel[] | null
   selectedCarBrand: string | null
   selectedCarModel: string | null
+  keyWords: string[]
 }
 
 class SearchPage extends React.Component<{},SearchPageState>{
@@ -24,13 +25,15 @@ class SearchPage extends React.Component<{},SearchPageState>{
       carBrands: null,
       carModels: null,
       selectedCarBrand: '',
-      selectedCarModel: ''
+      selectedCarModel: '',
+      keyWords: []
     };
 
     this.fetchCarBrands = this.fetchCarBrands.bind(this)
     this.fetchCarModels = this.fetchCarModels.bind(this)
     this.handleCarBrandChange = this.handleCarBrandChange.bind(this)
     this.handleCarModelChange = this.handleCarModelChange.bind(this)
+    this.handleKeywordsChange = this.handleKeywordsChange.bind(this)
   }
 
   private fetchCarBrands(): void{
@@ -92,6 +95,12 @@ class SearchPage extends React.Component<{},SearchPageState>{
     })
   }
 
+  private handleKeywordsChange(event:React.SyntheticEvent<Element, Event>,value: string[]) {
+    this.setState({
+      keyWords: value
+    })
+  }
+
   render ():JSX.Element {
     const {
       carBrands,
@@ -99,6 +108,12 @@ class SearchPage extends React.Component<{},SearchPageState>{
       selectedCarBrand,
       selectedCarModel
     } = this.state
+    const recommendedKeywords = [
+      'gti',
+      'vsti',
+      'AMG',
+      'M-sport'
+    ]
 
     return (
       <div className="demo-app">
@@ -138,7 +153,27 @@ class SearchPage extends React.Component<{},SearchPageState>{
               )
             )}
           </Select>
-        </FormControl> 
+        </FormControl>
+        <Autocomplete
+          multiple
+          id="tags-filled"
+          options={recommendedKeywords}
+          freeSolo
+          renderTags={(value: readonly string[], getTagProps) =>
+            value.map((option: string, index: number) => (
+              <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+            ))
+          }
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              variant="filled"
+              label="Keywords"
+              placeholder="for example: AMG"
+            />
+          )}
+          onChange={this.handleKeywordsChange}
+        /> 
      </div>
     );
     }
