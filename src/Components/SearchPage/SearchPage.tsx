@@ -2,7 +2,7 @@ import React from 'react';
 import Axios, { AxiosError, AxiosResponse } from 'axios'
 import './SearchPage.css'
 import { CarBrand, CarModel } from '../../types/demoAppModels';
-import { Autocomplete, Chip, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
+import { Autocomplete, Button, Chip, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 
 interface SearchPageState {
   error: Error | AxiosError |null
@@ -106,7 +106,8 @@ class SearchPage extends React.Component<{},SearchPageState>{
       carBrands,
       carModels,
       selectedCarBrand,
-      selectedCarModel
+      selectedCarModel,
+      keyWords
     } = this.state
     const recommendedKeywords = [
       'gti',
@@ -117,64 +118,78 @@ class SearchPage extends React.Component<{},SearchPageState>{
 
     return (
       <div className="demo-app">
-        <h1>Buy a car</h1>
-        <FormControl fullWidth>
-          <InputLabel id="car-brand-label">Brand</InputLabel>
-          <Select
-            labelId="car-brand-label"
-            id="select-brand"
-            value={selectedCarBrand}
-            label="Car Brand"
-            onChange={this.handleCarBrandChange}
-          >
-            {selectedCarBrand && <MenuItem value=''>None</MenuItem>}
-            {carBrands?.map((carBrand,index) => (
-                <MenuItem key={index} value={carBrand.id}>{carBrand.displayName}</MenuItem>
-              )
-            )}
-          </Select>
-        </FormControl> 
-        <FormControl fullWidth>
-          <InputLabel id="car-model-label">Model</InputLabel>
-          <Select
-            labelId="dcar-model-label"
-            id="select-model"
-            value={selectedCarModel}
-            label="Car Brand"
-            onChange={this.handleCarModelChange}
-            disabled={!carBrands}
-          >
-            {carBrands
-            ? <MenuItem value=''>All models</MenuItem>
-            : <MenuItem value=''>Select a car brand first</MenuItem>}
-            
-            {carModels?.map((carModel,index) => (
-                <MenuItem key={index} value={carModel.id}>{carModel.displayName}</MenuItem>
-              )
-            )}
-          </Select>
-        </FormControl>
-        <Autocomplete
-          multiple
-          id="tags-filled"
-          options={recommendedKeywords}
-          freeSolo
-          renderTags={(value: readonly string[], getTagProps) =>
-            value.map((option: string, index: number) => (
-              <Chip variant="outlined" label={option} {...getTagProps({ index })} />
-            ))
-          }
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              variant="filled"
-              label="Keywords"
-              placeholder="for example: AMG"
+        <div className='search-panel'>
+          <h1>Buy a car</h1>
+          <div className='seach-parameters'>
+            <FormControl fullWidth>
+              <InputLabel id="car-brand-label">Brand</InputLabel>
+              <Select
+                labelId="car-brand-label"
+                id="select-brand"
+                value={selectedCarBrand}
+                label="Car Brand"
+                onChange={this.handleCarBrandChange}
+              >
+                {selectedCarBrand && <MenuItem value=''>None</MenuItem>}
+                {carBrands?.map((carBrand,index) => (
+                    <MenuItem key={index} value={carBrand.id}>{carBrand.displayName}</MenuItem>
+                  )
+                )}
+              </Select>
+            </FormControl> 
+            <FormControl fullWidth>
+              <InputLabel id="car-model-label">Model</InputLabel>
+              <Select
+                labelId="dcar-model-label"
+                id="select-model"
+                value={selectedCarModel}
+                label="Car Brand"
+                onChange={this.handleCarModelChange}
+                disabled={!carBrands}
+              >
+                {carBrands
+                ? <MenuItem value=''>All models</MenuItem>
+                : <MenuItem value=''>Select a car brand first</MenuItem>}
+                
+                {carModels?.map((carModel,index) => (
+                    <MenuItem key={index} value={carModel.id}>{carModel.displayName}</MenuItem>
+                  )
+                )}
+              </Select>
+            </FormControl>
+            <Autocomplete
+              multiple
+              id="tags-filled"
+              options={recommendedKeywords}
+              freeSolo
+              renderTags={(value: readonly string[], getTagProps) =>
+                value.map((option: string, index: number) => (
+                  <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                ))
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="filled"
+                  label="Keywords"
+                  placeholder="for example: AMG"
+                />
+              )}
+              onChange={this.handleKeywordsChange}
             />
-          )}
-          onChange={this.handleKeywordsChange}
-        /> 
+          </div>
+          <div className='search-submit'>
+            <Button
+              fullWidth
+              variant="contained"
+              disabled={!(selectedCarBrand || selectedCarModel || keyWords.length > 0)}
+            >
+              Search Cars
+            </Button>
+          </div>
+      </div>
      </div>
+
     );
     }
 }
