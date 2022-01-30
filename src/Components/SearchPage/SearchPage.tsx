@@ -82,7 +82,8 @@ class SearchPage extends React.Component<{},SearchPageState>{
   private handleCarBrandChange(event:SelectChangeEvent<string | null>) {
     const newState = {
       selectedCarBrand: event.target.value,
-      selectedCarModel: ''
+      selectedCarModel: '',
+      carModels: null
     }
     this.setState(
       newState,
@@ -172,7 +173,7 @@ class SearchPage extends React.Component<{},SearchPageState>{
                 value={selectedCarModel}
                 label="Car Brand"
                 onChange={this.handleCarModelChange}
-                disabled={!carBrands}
+                disabled={!selectedCarBrand}
               >
                 {carBrands
                 ? <MenuItem value=''>All models</MenuItem>
