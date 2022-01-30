@@ -34,6 +34,7 @@ class SearchPage extends React.Component<{},SearchPageState>{
     this.handleCarBrandChange = this.handleCarBrandChange.bind(this)
     this.handleCarModelChange = this.handleCarModelChange.bind(this)
     this.handleKeywordsChange = this.handleKeywordsChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   private fetchCarBrands(): void{
@@ -99,6 +100,32 @@ class SearchPage extends React.Component<{},SearchPageState>{
     this.setState({
       keyWords: value
     })
+  }
+
+  private handleSubmit() {
+    const {
+      selectedCarBrand,
+      selectedCarModel,
+      keyWords
+    } = this.state
+
+    Axios.post(`http://localhost:3001/seachCars`,{
+        selectedCarBrand,
+        selectedCarModel,
+        keyWords
+      }
+    )
+    .then(
+      (response:AxiosResponse) => {
+        console.log(response)
+      },
+      (error) => {
+        // this.setState({
+        //   modelsLoading: false,
+        //   error
+        // })
+      }
+    )
   }
 
   render ():JSX.Element {
@@ -184,6 +211,7 @@ class SearchPage extends React.Component<{},SearchPageState>{
               fullWidth
               variant="contained"
               disabled={!(selectedCarBrand || selectedCarModel || keyWords.length > 0)}
+              onClick={this.handleSubmit}
             >
               Search Cars
             </Button>
