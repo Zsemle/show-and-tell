@@ -2,18 +2,15 @@ import React from 'react';
 import Axios, { AxiosError, AxiosResponse } from 'axios';
 import './SearchPage.css';
 import {
-  Autocomplete, Button, Chip, FormControl,
-  InputLabel, MenuItem, Select, SelectChangeEvent, TextField,
+  Button, SelectChangeEvent,
 } from '@mui/material';
 import { CarBrand, CarModel } from '../../types/demoAppModels';
+import CarBrandSelector from '../CarBrandSelector/CarBrandSelector';
+import CarModelSelector from '../CarModelSelector/CarModelSelector';
+import KeywordsField from '../KeywordsField/KeywordsField';
 
 const T = {
   searchPanelTitle: 'Buy a car',
-  brandInputLabel: 'Brand',
-  selectNothing: 'None',
-  modelInputLabel: 'Model',
-  modelInputSelectAll: 'All models',
-  modelInputSelectBrandFirst: 'Select a car brand first',
   searchButtonText: 'Search Cars',
 };
 
@@ -152,6 +149,7 @@ class SearchPage extends React.Component<{}, SearchPageState> {
       modelsLoading,
       brandsLoading,
     } = this.state;
+
     const recommendedKeywords = [
       'gti',
       'vsti',
@@ -160,65 +158,28 @@ class SearchPage extends React.Component<{}, SearchPageState> {
     ];
 
     return (
-      <div className="demo-app">
+      <div className="search-page">
         <div className="search-panel">
           <h1>{T.searchPanelTitle}</h1>
           {modelsLoading && 'loading models'}
           {brandsLoading && 'loading brands'}
           {error && 'an error has occured'}
           <div className="seach-parameters">
-            <FormControl fullWidth>
-              <InputLabel id="car-brand-label">{T.brandInputLabel}</InputLabel>
-              <Select
-                labelId="car-brand-label"
-                id="S1"
-                value={selectedCarBrand}
-                label="Car Brand"
-                onChange={this.handleCarBrandChange}
-              >
-                {selectedCarBrand && <MenuItem value="">{T.selectNothing}</MenuItem>}
-                {carBrands?.map((carBrand) => (
-                  <MenuItem key={carBrand.id} value={carBrand.id}>{carBrand.displayName}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl fullWidth>
-              <InputLabel id="car-model-label">{T.modelInputLabel}</InputLabel>
-              <Select
-                labelId="dcar-model-label"
-                id="S2"
-                value={selectedCarModel}
-                label="Car Brand"
-                onChange={this.handleCarModelChange}
-                disabled={!selectedCarBrand}
-              >
-                {carBrands
-                  ? <MenuItem value="">{T.modelInputSelectAll}</MenuItem>
-                  : <MenuItem value="">{T.modelInputSelectBrandFirst}</MenuItem>}
+            <CarBrandSelector
+              carBrands={carBrands}
+              selectedCarBrand={selectedCarBrand}
+              onChange={this.handleCarBrandChange}
+            />
+            <CarModelSelector
+              carBrands={carBrands}
+              carModels={carModels}
+              selectedCarBrand={selectedCarBrand}
+              selectedCarModel={selectedCarModel}
+              onChange={this.handleCarModelChange}
 
-                {carModels?.map((carModel) => (
-                  <MenuItem key={carModel.id} value={carModel.id}>{carModel.displayName}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <Autocomplete
-              multiple
-              id="T"
-              options={recommendedKeywords}
-              freeSolo
-              renderTags={(value: readonly string[], getTagProps) => value.map(
-                (option: string, index: number) => (
-                  <Chip variant="outlined" label={option} {...getTagProps({ index })} />
-                ),
-              )}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant="filled"
-                  label="Keywords"
-                  placeholder="for example: AMG"
-                />
-              )}
+            />
+            <KeywordsField
+              recommendedKeywords={recommendedKeywords}
               onChange={this.handleKeywordsChange}
             />
           </div>
