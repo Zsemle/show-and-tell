@@ -7,6 +7,16 @@ import {
 } from '@mui/material';
 import { CarBrand, CarModel } from '../../types/demoAppModels';
 
+const T = {
+  searchPanelTitle: 'Buy a car',
+  brandInputLabel: 'Brand',
+  selectNothing: 'None',
+  modelInputLabel: 'Model',
+  modelInputSelectAll: 'All models',
+  modelInputSelectBrandFirst: 'Select a car brand first',
+  searchButtonText: 'Search Cars',
+};
+
 interface SearchPageState {
   error: Error | AxiosError |null
   brandsLoading: Boolean
@@ -152,13 +162,13 @@ class SearchPage extends React.Component<{}, SearchPageState> {
     return (
       <div className="demo-app">
         <div className="search-panel">
-          <h1>Buy a car</h1>
+          <h1>{T.searchPanelTitle}</h1>
           {modelsLoading && 'loading models'}
           {brandsLoading && 'loading brands'}
           {error && 'an error has occured'}
           <div className="seach-parameters">
             <FormControl fullWidth>
-              <InputLabel id="car-brand-label">Brand</InputLabel>
+              <InputLabel id="car-brand-label">{T.brandInputLabel}</InputLabel>
               <Select
                 labelId="car-brand-label"
                 id="S1"
@@ -166,14 +176,14 @@ class SearchPage extends React.Component<{}, SearchPageState> {
                 label="Car Brand"
                 onChange={this.handleCarBrandChange}
               >
-                {selectedCarBrand && <MenuItem value="">None</MenuItem>}
+                {selectedCarBrand && <MenuItem value="">{T.selectNothing}</MenuItem>}
                 {carBrands?.map((carBrand) => (
                   <MenuItem key={carBrand.id} value={carBrand.id}>{carBrand.displayName}</MenuItem>
                 ))}
               </Select>
             </FormControl>
             <FormControl fullWidth>
-              <InputLabel id="car-model-label">Model</InputLabel>
+              <InputLabel id="car-model-label">{T.modelInputLabel}</InputLabel>
               <Select
                 labelId="dcar-model-label"
                 id="S2"
@@ -183,8 +193,8 @@ class SearchPage extends React.Component<{}, SearchPageState> {
                 disabled={!selectedCarBrand}
               >
                 {carBrands
-                  ? <MenuItem value="">All models</MenuItem>
-                  : <MenuItem value="">Select a car brand first</MenuItem>}
+                  ? <MenuItem value="">{T.modelInputSelectAll}</MenuItem>
+                  : <MenuItem value="">{T.modelInputSelectBrandFirst}</MenuItem>}
 
                 {carModels?.map((carModel) => (
                   <MenuItem key={carModel.id} value={carModel.id}>{carModel.displayName}</MenuItem>
@@ -220,7 +230,7 @@ class SearchPage extends React.Component<{}, SearchPageState> {
               disabled={!(selectedCarBrand || selectedCarModel || keyWords.length > 0)}
               onClick={this.handleSubmit}
             >
-              Search Cars
+              {T.searchButtonText}
             </Button>
           </div>
         </div>
