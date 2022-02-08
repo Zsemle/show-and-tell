@@ -27,13 +27,12 @@ const carsRoutes = (app, fs) => {
 
   app.get('/carbrandslight', (req, res) => {
     readFile((data) => {
-      const lightPayload = data.map(brand => (
-          {
-            id : brand.id,
-            displayName: brand.displayName
-          }
-        )
-      )
+      const lightPayload = data.map((brand) => (
+        {
+          id: brand.id,
+          displayName: brand.displayName,
+        }
+      ));
       res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
       res.send(lightPayload);
     }, true);
@@ -43,11 +42,11 @@ const carsRoutes = (app, fs) => {
     readFile((data) => {
       const carBrandId = req.params.id;
       res.set('Access-Control-Allow-Origin', 'http://localhost:3000');
-      if (!data.find(carBrand => carBrand.id === carBrandId)) {
+      if (!data.find((carBrand) => carBrand.id === carBrandId)) {
         res.status(400).send(`id:${carBrandId} not found`);
         return;
       }
-      res.send(data.find(carBrand => carBrand.id === carBrandId).availableModels);
+      res.send(data.find((carBrand) => carBrand.id === carBrandId).availableModels);
     }, true);
   });
 };
