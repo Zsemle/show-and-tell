@@ -11,8 +11,8 @@ const T = {
 
 interface CarBrandSelectorProps {
   carBrands: CarBrand[] | null
-  selectedCarBrand: string | null
-  onChange: (event: SelectChangeEvent<string | null>) => void
+  selectedCarBrand: string
+  onChange: (event: SelectChangeEvent<string>) => void
 }
 
 const CarBrandSelector:React.FC<CarBrandSelectorProps> = ({
